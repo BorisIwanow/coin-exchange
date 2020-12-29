@@ -9,38 +9,38 @@ import AccountBalance from './components/AccountBalance/AccountBalance';
 
 class App extends React.Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      balance : 1000000,
-      showBalance: true,
-      coinData: [
-        {
-          name: 'Bitcoin',
-          ticker: 'BTC',
-          price: 30000,
-          balance: 0.5
-        },
-        {
-          name: 'Ethereum',
-          ticker: 'ETH',
-          price: 10000,
-          balance: 10.5
-        },
-        {
-          name: 'CranePay',
-          ticker: 'CRP',
-          price: 1.2,
-          balance: 300000
-        }
-      ]
-    };
-    this.handleRefresh = this.handleRefresh.bind(this);
-    this.handleBalanceVisibilityChange = this.handleBalanceVisibilityChange.bind(this)
+  state = {
+    balance: 1000000,
+    showBalance: true,
+    coinData: [
+      {
+        name: 'Bitcoin',
+        ticker: 'BTC',
+        price: 30000,
+        balance: 0.5
+      },
+      {
+        name: 'Ethereum',
+        ticker: 'ETH',
+        price: 10000,
+        balance: 10.5
+      },
+      {
+        name: 'CranePay',
+        ticker: 'CRP',
+        price: 1.2,
+        balance: 300000
+      }
+    ]
   }
 
 
-  handleBalanceVisibilityChange(){
+  constructor(props){
+    super(props);
+  }
+
+
+  handleBalanceVisibilityChange = () =>{
     this.setState(function(oldState){
       return {
         ...oldState,
@@ -49,18 +49,19 @@ class App extends React.Component {
   });
 }
 
-handleRefresh(valueChangeTicker){
-  const newCoinData = this.state.coinData.map( function({ticker, name, price}) {
+handleRefresh = (valueChangeTicker) => {
+  const newCoinData = this.state.coinData.map( function({ticker, name, price, balance}) {
     let newPrice = price;
     if(valueChangeTicker === ticker){
         const randomPercentage = 0.995 + Math.random()* 0.01;
-        newPrice = newPrice * randomPercentage;
+        newPrice *= randomPercentage;
                 
     }
     return {
         ticker, 
         name, 
-        price:newPrice
+        price:newPrice,
+        balance
     }
   });
   this.setState({coinData: newCoinData});
